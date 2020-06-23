@@ -1,7 +1,7 @@
 # Use NodeJS base image
 FROM node:13
-# Create app directory
-WORKDIR /www/data
+
+WORKDIR /usr/src/app
  
 COPY nginx.conf /etc/nginx/nginx.conf
 
@@ -16,6 +16,11 @@ RUN apt-get update \
     && apt-get clean \
     && rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/* \
     && echo "daemon off;" >> /etc/nginx/nginx.conf
+
+WORKDIR /www/data
+
+# Create app directory
+RUN mv /usr/src/app/www/* /www/data/. && rm -rf /usr/src/app
 
 EXPOSE 8080
 
